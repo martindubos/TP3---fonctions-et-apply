@@ -1,0 +1,240 @@
+```{r}
+library(dplyr)
+library(tidyverse)
+```
+# exercice 1
+
+##Q1
+```{r}
+data <- data.frame(var1 = LETTERS,
+                   var2 = rpois(26,3),
+                   var3 = runif(26, min = 50, max = 120),
+                   var4 = rnorm(26, mean = 50, sd = 15),
+                   var5 = rbinom(26,100,0.8))
+```
+
+##Q2
+```{r}
+data_na <- data
+# Nombre de NA généré (nombre aléatoire allant de 1 à 5)
+n <- sample(1:5,1)
+# Génération des NA sur la variable var1
+data_na[sample(1:nrow(data_na),n),"var1"]<-NA
+```
+
+##Q3
+
+utilisation pour les boucles :
+  seq_along(1 : 5)
+  c(1,8,9)
+```{r}
+data_na <- data 
+
+
+
+for(col in names(data_na)){
+  n <- sample(1:5,1)
+  
+  data_na[sample(1:nrow(data_na),n),col] <-  NA
+}
+```
+
+##Q4
+```{r}
+genere_na <- function(x,n){
+  # x = un vecteur sur lequel on souhaite générer des valeurs manquantes
+  # n = le nombre de NA maximum,
+  #ajouter des tests : exemple les valeurs doivent etre positives 
+  nb_na <- sample(1:n,1)
+  x[sample(1:length(x),nb_na)] <- NA
+  
+  return(x)
+  
+}
+
+```
+
+##Q5
+```{r}
+
+data_na_q5 <- data
+
+for(col in names(data_na_q5)){
+  data_na_q5[ , col] <- genere_na(data_na_q5[,col],  10)
+}
+```
+
+##Q6-a
+```{r}
+data_na_q6a <- data %>% 
+  mutate_all(genere_na, n = 10)
+
+
+data_na_q6ab <- data %>% 
+  mutate(across(everything(),~genere_na(.x,10)))
+
+```
+
+##Q6-b
+```{r}
+
+data_na_q6b <- apply(data, margin = 2, genere_na, n = 10)
+
+#margin indique si on travail sur les lignes (=1) ou les colonnes (=2)
+```
+
+
+
+##Q9
+```{r}
+impute_na <- function()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
