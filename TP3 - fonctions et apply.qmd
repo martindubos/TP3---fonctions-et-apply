@@ -2,9 +2,11 @@
 library(dplyr)
 library(tidyverse)
 ```
+
 # exercice 1
 
-##Q1
+## Q1
+
 ```{r}
 data <- data.frame(var1 = LETTERS,
                    var2 = rpois(26,3),
@@ -13,7 +15,8 @@ data <- data.frame(var1 = LETTERS,
                    var5 = rbinom(26,100,0.8))
 ```
 
-##Q2
+## Q2
+
 ```{r}
 data_na <- data
 # Nombre de NA généré (nombre aléatoire allant de 1 à 5)
@@ -22,11 +25,10 @@ n <- sample(1:5,1)
 data_na[sample(1:nrow(data_na),n),"var1"]<-NA
 ```
 
-##Q3
+## Q3
 
-utilisation pour les boucles :
-  seq_along(1 : 5)
-  c(1,8,9)
+utilisation pour les boucles : seq_along(1 : 5) c(1,8,9)
+
 ```{r}
 data_na <- data 
 
@@ -39,7 +41,8 @@ for(col in names(data_na)){
 }
 ```
 
-##Q4
+## Q4
+
 ```{r}
 genere_na <- function(x,n){
   # x = un vecteur sur lequel on souhaite générer des valeurs manquantes
@@ -54,7 +57,8 @@ genere_na <- function(x,n){
 
 ```
 
-##Q5
+## Q5
+
 ```{r}
 
 data_na_q5 <- data
@@ -64,7 +68,8 @@ for(col in names(data_na_q5)){
 }
 ```
 
-##Q6-a
+## Q6-a
+
 ```{r}
 data_na_q6a <- data %>% 
   mutate_all(genere_na, n = 10)
@@ -75,7 +80,8 @@ data_na_q6ab <- data %>%
 
 ```
 
-##Q6-b
+## Q6-b
+
 ```{r}
 
 data_na_q6b <- apply(data, margin = 2, genere_na, n = 10)
@@ -83,130 +89,87 @@ data_na_q6b <- apply(data, margin = 2, genere_na, n = 10)
 #margin indique si on travail sur les lignes (=1) ou les colonnes (=2)
 ```
 
+## Q9
 
-
-##Q9
 ```{r}
-impute_na <- function()
+impute_na <- function(x, ...){
+  if(any(is.na(x) == T)){
+    
+    x[which(is.na(x))] <- mean(x, na.rm = T)
+    return(x)
+    }else{
+      return(x)
+    }
+}
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r}
+
+impute_na(c(1,NA,3), na.rm = T)
+```
+
+## Q10
+
+```{r}
+
+impute_na2 <-  function(x){
+  print("print")
+  warning()
+}
+```
+
+## Q11
+
+```{r}
+
+#' Title
+#'
+#' @param x 
+#'
+#' @returns
+#' @export
+#'
+#' @examples
+#' 
+impute_na2 <-  function(x){
+  if(is.numeric(x) == F) stop("le vecteur n'est pas numérique")
+  
+  if(any(is.na(x)) == T){
+    x[which(is.na(x))] <- mean(x, na.rm = T)
+      message("imputation de valeur manquante")
+      return(x)
+  }else{
+    warning("le vecteur ne contient pas de valeur manquante")
+    return(x)
+  }
+}
+```
+
+```{r}
+impute_na2(c(1,NA,3))
+
+impute_na2(c(1,2,3))
+```
+
+## Q12
+
+```{r}
+
+data_pas_num <- data_na_q5 %>% 
+  select(!is.numeric)
+
+data_num <- apply(data_na_q5 %>% 
+                    select(is.numeric), 2, impute_na)
+
+q12 <- cbind(data_pas_num, data_num)
+```
+
+## Q13
+```{r}
+data_test <- data_na_q5 %>% 
+  mutate_if(is.numeric, impute_na)
+```
 
 
 
